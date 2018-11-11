@@ -113,9 +113,9 @@ class Recording {
         if (this.wiresImage) {
             this.context.drawImage(this.wiresImage, startX + 276 + padding / 2, 45, 54, videoWidth - 50);
         }
-        //if (this.stampImage) {
-        //    this.context.drawImage(this.stampImage, this.canvas.width / 2 - (videoWidth * 1.2 / 2), 302, videoWidth * 1.2, 20);
-        //}
+        // if (this.stampImage) {
+        //     this.context.drawImage(this.stampImage, this.canvas.width / 2 - (videoWidth * 1.2 / 2), 302, videoWidth * 1.2, 20);
+        // }
         // Bars to cover it:
         // this.context.fillStyle = '#e4e5e6';
         // this.context.fillRect(startX + 340, 0, videoWidth + padding, startY);
