@@ -28,11 +28,9 @@ class Recording {
         this.recordMessage = element.querySelector('#message');
         this.recordMessageAlt = element.querySelector('#message-alt');
         this.downloadLinkSection.style.display = 'none';
-        this.sharingNotice = element.querySelector('#sharing-notice');
 
         this.sendSuccess = false;
 
-        this.legal = document.querySelector('#recording__legal');
         this.checkbox = document.querySelector('#recording__checkbox');
 
         this.recordMessageAlt.style.display = 'none';
@@ -53,8 +51,9 @@ class Recording {
         this.RECORD_TIME = 10000;
 
         this.startButton = new Button(document.querySelector('#recording__start-button'));
-        this.startButton.element.addEventListener('click', this.startRecordEvent);
         this.startRecordEvent = this.onRecordButtonClick.bind(this);
+        this.startButton.element.addEventListener('click', this.startRecordEvent);
+        
     }
 
     setCanvas(element) {
@@ -113,9 +112,6 @@ class Recording {
         if (this.wiresImage) {
             this.context.drawImage(this.wiresImage, startX + 276 + padding / 2, 45, 54, videoWidth - 50);
         }
-        // if (this.stampImage) {
-        //     this.context.drawImage(this.stampImage, this.canvas.width / 2 - (videoWidth * 1.2 / 2), 302, videoWidth * 1.2, 20);
-        // }
         // Bars to cover it:
         // this.context.fillStyle = '#e4e5e6';
         // this.context.fillRect(startX + 340, 0, videoWidth + padding, startY);
@@ -169,13 +165,13 @@ class Recording {
         }
         let confidencePercentage = confidence / 100;
         switch (colorId) {
-            case 'groen':
+            case 'green':
             this.confidence1 = confidencePercentage;
             break;
-            case 'paars':
+            case 'purple':
             this.confidence2 = confidencePercentage;
             break;
-            case 'oranje':
+            case 'orange':
             this.confidence3 = confidencePercentage;
             break;
             default:
@@ -240,13 +236,11 @@ class Recording {
         this.recordMessage.style.display = 'block';
         this.recordMessageAlt.style.display = 'none';
         this.startButton.element.style.display = 'inline-block';
-        this.legal.style.display = 'block';
         this.downloadLinkSection.style.display = 'none';
         document.querySelector('#recording__start-button .button__label #icon--stop').style.display = 'none';
         document.querySelector('#recording__start-button .button__label #icon--record').style.display = 'inline-block';
         document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start opname';
         this.canvas.style.display = 'block';
-        this.sharingNotice.style.display = 'none';
         this.recordingVideo.style.display = 'none';
         this.recordingVideo.setAttribute('src', '');
         this.stopRecordingTime();
@@ -338,9 +332,7 @@ class Recording {
             this.downloadLinkButton.href = url;
             this.downloadLinkButton.download = 'slimme-computer.mp4';
             this.startButton.element.style.display = 'none';
-            this.legal.style.display = 'none';
             this.recordingVideo.setAttribute('src', url);
-            // this.sharingNotice.style.display = 'block';
         };
         this.recordingTimeout = setTimeout(() => {
             this.startButton.element.classList.remove('animate');
