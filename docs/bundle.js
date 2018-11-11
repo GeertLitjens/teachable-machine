@@ -60644,7 +60644,6 @@ var LearningClass = function () {
 			var _this = this;
 
 			var that = this;
-			this.button.setText('Training');
 			this.section.startRecording(this.index);
 
 			this.buttonUpEvent = this.buttonUp.bind(this);
@@ -60664,7 +60663,6 @@ var LearningClass = function () {
 	}, {
 		key: 'buttonUp',
 		value: function buttonUp() {
-			this.button.setText('Train <br>' + this.id);
 			this.section.stopRecording();
 			clearTimeout(this.buttonClickTimeout);
 			this.button.up();
@@ -61276,22 +61274,11 @@ var Recording = function () {
         this.RECORD_TIME = 10000;
 
         this.startButton = new _Button2.default(document.querySelector('#recording__start-button'));
+        this.startButton.element.addEventListener('click', this.startRecordEvent);
         this.startRecordEvent = this.onRecordButtonClick.bind(this);
-        this.checkbox.addEventListener('click', this.toggleCheckbox.bind(this));
     }
 
     _createClass(Recording, [{
-        key: 'toggleCheckbox',
-        value: function toggleCheckbox() {
-            if (this.checkbox.checked) {
-                this.startButton.element.addEventListener('click', this.startRecordEvent);
-                this.startButton.element.classList.remove('recording-start__button--disabled');
-            } else {
-                this.startButton.element.removeEventListener('click', this.startRecordEvent);
-                this.startButton.element.classList.add('recording-start__button--disabled');
-            }
-        }
-    }, {
         key: 'setCanvas',
         value: function setCanvas(element) {
             var _this = this;
@@ -61352,9 +61339,9 @@ var Recording = function () {
             if (this.wiresImage) {
                 this.context.drawImage(this.wiresImage, startX + 276 + padding / 2, 45, 54, videoWidth - 50);
             }
-            if (this.stampImage) {
-                this.context.drawImage(this.stampImage, this.canvas.width / 2 - videoWidth * 1.2 / 2, 302, videoWidth * 1.2, 20);
-            }
+            // if (this.stampImage) {
+            //     this.context.drawImage(this.stampImage, this.canvas.width / 2 - (videoWidth * 1.2 / 2), 302, videoWidth * 1.2, 20);
+            // }
             // Bars to cover it:
             // this.context.fillStyle = '#e4e5e6';
             // this.context.fillRect(startX + 340, 0, videoWidth + padding, startY);
@@ -61403,13 +61390,13 @@ var Recording = function () {
             }
             var confidencePercentage = confidence / 100;
             switch (colorId) {
-                case 'green':
+                case 'groen':
                     this.confidence1 = confidencePercentage;
                     break;
-                case 'purple':
+                case 'paars':
                     this.confidence2 = confidencePercentage;
                     break;
-                case 'orange':
+                case 'oranje':
                     this.confidence3 = confidencePercentage;
                     break;
                 default:
@@ -61469,6 +61456,8 @@ var Recording = function () {
         value: function reset() {
             _config2.default.webcamClassifier.startTimer();
             this.recordingState = 'waiting';
+            this.element.style.opacity = 1;
+            this.element.style.pointerEvents = 'initial';
             this.recordTimer.style.display = 'block';
             this.startButton.element.style.top = 0;
             this.downloadLinkSection.style.marginLeft = '15px';
@@ -61479,7 +61468,7 @@ var Recording = function () {
             this.downloadLinkSection.style.display = 'none';
             document.querySelector('#recording__start-button .button__label #icon--stop').style.display = 'none';
             document.querySelector('#recording__start-button .button__label #icon--record').style.display = 'inline-block';
-            document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start Recording';
+            document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start opname';
             this.canvas.style.display = 'block';
             this.sharingNotice.style.display = 'none';
             this.recordingVideo.style.display = 'none';
@@ -61544,7 +61533,7 @@ var Recording = function () {
             clearTimeout(this.countdownTimeout);
             this.count = 3;
             this.startButton.element.classList.remove('animate');
-            document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start Recording';
+            document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start opname';
         }
     }, {
         key: 'startRecording',
@@ -61553,13 +61542,13 @@ var Recording = function () {
 
             this.recordingState = 'recording';
             document.querySelector('#recording__start-button .button__label #icon--stop').style.display = 'inline-block';
-            document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Stop Recording';
+            document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Stop opname';
             var recordedChunks = [];
             this.startButton.element.classList.add('animate');
             var finalStream = new MediaStream();
             var canvasStream = this.canvas.captureStream().getVideoTracks()[0];
             finalStream.addTrack(canvasStream);
-            finalStream.addTrack(_config2.default.stream.getAudioTracks()[0]);
+            //        finalStream.addTrack(GLOBALS.stream.getAudioTracks()[0]);
 
             this.mediaRecorder = new MediaRecorder(finalStream);
 
@@ -61570,7 +61559,7 @@ var Recording = function () {
             };
             this.mediaRecorder.start();
             this.mediaRecorder.onstop = function () {
-                _this4.blob = new Blob(recordedChunks, { type: 'video/webm' });
+                _this4.blob = new Blob(recordedChunks, { type: 'video/mp4' });
                 var url = URL.createObjectURL(_this4.blob);
                 _this4.canvas.style.display = 'none';
                 _this4.recordingVideo.style.display = 'block';
@@ -61582,7 +61571,7 @@ var Recording = function () {
                 document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = '';
                 _this4.downloadLinkSection.style.display = 'inline-block';
                 _this4.downloadLinkButton.href = url;
-                _this4.downloadLinkButton.download = 'teachable-machine.webm';
+                _this4.downloadLinkButton.download = 'slimme-computer.mp4';
                 _this4.startButton.element.style.display = 'none';
                 _this4.legal.style.display = 'none';
                 _this4.recordingVideo.setAttribute('src', url);
@@ -61599,6 +61588,7 @@ var Recording = function () {
         value: function show() {
             var _this5 = this;
 
+            this.reset();
             this.recordingState = 'waiting';
             this.showing = true;
             this.element.style.opacity = 1;
@@ -61621,7 +61611,6 @@ var Recording = function () {
                 if (_this6.video) {
                     _this6.recordingVideo.setAttribute('src', '');
                 }
-                _this6.reset();
             }, 300);
             clearTimeout(this.recordingTimeTimeout);
             clearTimeout(this.countdownTimeout);
@@ -61637,7 +61626,7 @@ var Recording = function () {
             window.fbWindowCallback = function (data) {
                 var formData = new FormData();
                 formData.append('code', data);
-                var fileOfBlob = new File([_this7.blob], 'share.webm');
+                var fileOfBlob = new File([_this7.blob], 'share.mp4');
 
                 formData.append('video', fileOfBlob);
 
@@ -62318,13 +62307,13 @@ var Wizard = function () {
                 startTime: 0,
                 stopTime: 3.7,
                 event: function event() {
-                    _this.setText('This experiment lets you explore how machine learning works.');
+                    _this.setText('Dit experiment laat je zien hoe slimme computers werken.');
                 }
             }, {
                 startTime: 4.5,
                 stopTime: 10.4,
                 event: function event() {
-                    _this.setText('You can teach the machine using your camera, and make it respond in fun ways.');
+                    _this.setText('Je kan de computer iets leren met je camera en op leuke manieren laten reageren.');
                 }
             }]
         });
@@ -62339,7 +62328,7 @@ var Wizard = function () {
                 event: function event() {
                     /*eslint-disable */
                     if (!_config2.default.browserUtils.isMobile && !_config2.default.isCamGranted) {
-                        _this.setText('First, click allow to turn on your camera.');
+                        _this.setText('Klik eerst \'Toestaan\' zodat we de camera kunnen gebruiken.');
                     } else {
                         _this.play(2);
                     }
@@ -62362,7 +62351,7 @@ var Wizard = function () {
                 startTime: 16.3,
                 stopTime: 20.6,
                 event: function event() {
-                    _this.setText('Here is your input. You should see yourself.');
+                    _this.setText('Dit zijn je voorbeelden. Nu zie je jezelf.');
                     _config2.default.inputSection.enable();
                     _config2.default.inputSection.highlight();
 
@@ -62374,7 +62363,7 @@ var Wizard = function () {
                 startTime: 20.7,
                 stopTime: 25.6,
                 event: function event() {
-                    _this.setText('Here are three classes: green, purple, orange.');
+                    _this.setText('We hebben drie groepen: groen, paars, oranje.');
                     _config2.default.inputSection.dehighlight();
                     _config2.default.inputSection.dim();
                     _config2.default.learningSection.undim();
@@ -62415,7 +62404,7 @@ var Wizard = function () {
                 startTime: 25.7,
                 stopTime: 29.7,
                 event: function event() {
-                    _this.setText('Here is the output, where the machine responds.');
+                    _this.setText('Dit is de uitkomst die de slimme computer geeft.');
                     if (_config2.default.browserUtils.isMobile) {
                         _gsap2.default.to(window, 0, { scrollTo: 660 });
                     }
@@ -62429,7 +62418,7 @@ var Wizard = function () {
                 stopTime: 36.8,
                 event: function event() {
                     _config2.default.outputSection.dehighlight();
-                    _this.setText('It’s set to respond with one of these GIFs. You can also make it respond with sounds or speech.');
+                    _this.setText('Hij is nu ingesteld om met plaatjes te antwoorden, maar het kan ook met geluiden of woorden.');
                 }
             }, {
                 startTime: 36.8,
@@ -62440,13 +62429,13 @@ var Wizard = function () {
                     _config2.default.learningSection.undim();
                     _config2.default.learningSection.enable();
                     _config2.default.outputSection.undim();
-                    _this.setText('First, we’re going to teach it to respond with the cat GIF when you do something.');
+                    _this.setText('Eerst laten we hem met het kattenplaatje reageren.');
                 }
             }, {
                 startTime: 42.3,
                 stopTime: 49,
                 event: function event() {
-                    _this.setText('Do something like put up your hand (see example above) and hold this green button for a couple seconds.');
+                    _this.setText('Doe bijvoorbeeld je hand omhoog en druk de groene knop een paar seconden in.');
                     if (_config2.default.browserUtils.isMobile) {
                         _gsap2.default.to(window, 0, { scrollTo: 175 });
                     }
@@ -62476,13 +62465,13 @@ var Wizard = function () {
                 startTime: 49.599999999999994,
                 stopTime: 53.8,
                 event: function event() {
-                    _this.setText('You should now see the green bar and the cat GIF.');
+                    _this.setText('Je zou nu een groene balk en een kattenplaatje moeten zien.');
                 }
             }, {
                 startTime: 53.9,
                 stopTime: 58.599999999999994,
                 event: function event() {
-                    _this.setText('But if you move around, you’ll see that they’re always showing no matter what.');
+                    _this.setText('Maar als je beweegt zul je zien dat dit altijd blijft staan.');
                 }
             }, {
                 startTime: 55.199999999999996,
@@ -62495,19 +62484,19 @@ var Wizard = function () {
                 stopTime: 64.6,
                 event: function event() {
                     _config2.default.inputSection.hideGif(1);
-                    _this.setText('That’s because the machine is looking at your input, and picking which class looks most similar.');
+                    _this.setText('Dat komt omdat de computer naar jouw voorbeeld kijkt en dan de groep kiest die daar het beste bij past.');
                 }
             }, {
                 startTime: 64.8,
                 stopTime: 72.2,
                 event: function event() {
-                    _this.setText('But since you’ve only trained the green class, it always picks that one. That’s why you need to teach it a second class.');
+                    _this.setText('Maar omdat je alleen geoefend hebt op de groene groep laat hij die altijd zien. We moeten dus ook op een tweede groep oefenen.');
                 }
             }, {
                 startTime: 72.39999999999999,
                 stopTime: 78.8,
                 event: function event() {
-                    _this.setText('So sit there with your hand down, and hold this purple button for a couple seconds.');
+                    _this.setText('Dus doe nu je hand omlaag en druk een paar seconden op de paarse knop.');
                 }
             }, {
                 startTime: 75.1,
@@ -62534,7 +62523,7 @@ var Wizard = function () {
                 startTime: 83.39999999999999,
                 stopTime: 92.8,
                 event: function event() {
-                    _this.setText('Now, move your hand up and down. You should see the cat GIF when your hand’s up, and dog the GIF when it’s down. Try it.');
+                    _this.setText('Beweeg nu je hand omhoog en omlaag. Je zou moeten zien dat je nu wisselt tussen het katten- en hondenplaatje.');
                     _config2.default.inputSection.hideGif(2);
                 }
             }, {
@@ -62562,13 +62551,13 @@ var Wizard = function () {
                 stopTime: 95.6,
                 event: function event() {
                     _config2.default.inputSection.hideGif(3);
-                    _this.setText('Great! Looks like it’s working.');
+                    _this.setText('Mooi, het ziet er naar uit dat het werkt..');
                 }
             }, {
                 startTime: 95.7,
                 stopTime: 99.2,
                 event: function event() {
-                    _this.setText('The orange button works the same way.');
+                    _this.setText('De oranje knop werkt op dezelfde manier.');
                     _config2.default.learningSection.enableClass(2);
                     _config2.default.learningSection.highlightClass(2);
                 }
@@ -62577,7 +62566,7 @@ var Wizard = function () {
                 stopTime: 104.2,
                 event: function event() {
                     _config2.default.learningSection.dehighlightClass(2);
-                    _this.setText('The x’s are for resetting your classes to teach them something new.');
+                    _this.setText('Met de x\'jes kun je opnieuw beginnen met een groep.');
                 }
             }, {
                 startTime: 99.8,
@@ -62592,7 +62581,7 @@ var Wizard = function () {
                 event: function event() {
                     _config2.default.learningSection.dehighlightClassX(0);
                     _config2.default.outputSection.highlight();
-                    _this.setText('And try the other outputs here.');
+                    _this.setText('En probeer ook de andere uitkomsten.');
                     if (_config2.default.browserUtils.isMobile) {
                         _gsap2.default.to(window, 0, { scrollTo: 660 });
                     }
@@ -62602,13 +62591,13 @@ var Wizard = function () {
                 stopTime: 112.39999999999999,
                 event: function event() {
                     _config2.default.outputSection.dehighlight();
-                    _this.setText('Now, start playing around. Teach your machine whatever you want.');
+                    _this.setText('Probeer nu maar een beetje uit, leer de computer maar wat je wilt.');
                 }
             }, {
                 startTime: 112.6,
                 stopTime: 119,
                 event: function event() {
-                    _this.setText('Below, you’ll find some ideas for things to try, and links to learn more.');
+                    _this.setText('Je kan ook nog een filmpje maken van je slimme computer als je uitgeleerd bent.');
                 }
             }, {
                 startTime: 119,
@@ -62629,7 +62618,7 @@ var Wizard = function () {
                 startTime: 131,
                 stopTime: 138.8,
                 event: function event() {
-                    _this.setText('Your machine will work best with at least 30 examples per class. Try recording some more.');
+                    _this.setText('De computer werkt het beste met meer dan 30 voorbeelden per groep. Probeer er nog een paar op te nemen.');
                 }
             }]
         });
@@ -62643,7 +62632,7 @@ var Wizard = function () {
                 stopTime: 130.8,
                 event: function event() {
                     _this.activateWebcamButton.style.display = 'block';
-                    _this.setText('Seems like the camera isn’t working. It might be your browser or camera settings.');
+                    _this.setText('Het lijkt erop dat de camera het niet doet, probeer deze pagina te verversen.');
                 }
             }]
         });
@@ -63235,7 +63224,7 @@ var LaunchScreen = function () {
 
             var intro = document.querySelector('.intro');
             var offset = intro.offsetHeight;
-            if (_config2.default.browserUtils.isMobile || _config2.default.browserUtils.isSafari) {
+            if (_config2.default.browserUtils.isMobile || _config2.default.browserUtils.isSafari || _config2.default.browserUtils.isChrome) {
                 _config2.default.inputSection.createCamInput();
                 _config2.default.camInput.start();
                 _config2.default.wizard.touchPlay();
