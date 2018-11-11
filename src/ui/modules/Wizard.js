@@ -28,7 +28,7 @@ class Wizard {
                 startTime: 0,
                 stopTime: 3.7,
                 event: () => {
-                    this.setText('This experiment lets you explore how machine learning works.');
+                    this.setText('Dit experiment laat je zien hoe slimme computers werken.');
 
                 }
             },
@@ -36,7 +36,7 @@ class Wizard {
                 startTime: 4.5,
                 stopTime: 10.4,
                 event: () => {
-                    this.setText('You can teach the machine using your camera, and make it respond in fun ways.');
+                    this.setText('Je kan de computer iets leren met je camera en op leuke manieren laten reageren.');
                 }
             }
             ]
@@ -53,7 +53,7 @@ class Wizard {
                 event: () => {
                     /*eslint-disable */
                     if (!GLOBALS.browserUtils.isMobile && !GLOBALS.isCamGranted) {
-                        this.setText('First, click allow to turn on your camera.');
+                        this.setText('Klik eerst \'Toestaan\' zodat we de camera kunnen gebruiken.');
                     }else {
                         this.play(2);
                     }
@@ -80,7 +80,7 @@ class Wizard {
                 startTime: 16.3,
                 stopTime: 20.6,
                 event: () => {
-                    this.setText('Here is your input. You should see yourself.');
+                    this.setText('Dit zijn je voorbeelden. Nu zie je jezelf.');
                     GLOBALS.inputSection.enable();
                     GLOBALS.inputSection.highlight();
 
@@ -93,7 +93,7 @@ class Wizard {
                 startTime: 20.7,
                 stopTime: 25.6,
                 event: () => {
-                    this.setText('Here are three classes: green, purple, orange.');
+                    this.setText('We hebben drie groepen: groen, paars, oranje.');
                     GLOBALS.inputSection.dehighlight();
                     GLOBALS.inputSection.dim();
                     GLOBALS.learningSection.undim();
@@ -139,7 +139,7 @@ class Wizard {
                 startTime: 25.7,
                 stopTime: 29.7,
                 event: () => {
-                    this.setText('Here is the output, where the machine responds.');
+                    this.setText('Dit is de uitkomst die de slimme computer geeft.');
                     if (GLOBALS.browserUtils.isMobile) {
                         TweenLite.to(window, 0, {scrollTo: 660});
                     }
@@ -154,7 +154,7 @@ class Wizard {
                 stopTime: 36.8,
                 event: () => {
                     GLOBALS.outputSection.dehighlight();
-                    this.setText('It’s set to respond with one of these GIFs. You can also make it respond with sounds or speech.');
+                    this.setText('Hij is nu ingesteld om met plaatjes te antwoorden, maar het kan ook met geluiden of woorden.');
                 }
             },
             {
@@ -166,14 +166,14 @@ class Wizard {
                     GLOBALS.learningSection.undim();
                     GLOBALS.learningSection.enable();
                     GLOBALS.outputSection.undim();
-                    this.setText('First, we’re going to teach it to respond with the cat GIF when you do something.');
+                    this.setText('Eerst laten we hem met het kattenplaatje reageren.');
                 }
             },
             {
                 startTime: 42.3,
                 stopTime: 49,
                 event: () => {
-                    this.setText('Do something like put up your hand (see example above) and hold this green button for a couple seconds.');
+                    this.setText('Doe bijvoorbeeld je hand omhoog en druk de groene knop een paar seconden in.');
                     if (GLOBALS.browserUtils.isMobile) {
                         TweenLite.to(window, 0, {scrollTo: 175});
                     }
@@ -208,14 +208,14 @@ this.steps.push({
         startTime: 49.599999999999994,
         stopTime: 53.8,
         event: () => {
-            this.setText('You should now see the green bar and the cat GIF.');
+            this.setText('Je zou nu een groene balk en een kattenplaatje moeten zien.');
         }
     },
     {
         startTime: 53.9,
         stopTime: 58.599999999999994,
         event: () => {
-            this.setText('But if you move around, you’ll see that they’re always showing no matter what.');
+            this.setText('Maar als je beweegt zul je zien dat dit altijd blijft staan.');
         }
     },
     {
@@ -230,21 +230,21 @@ this.steps.push({
         stopTime: 64.6,
         event: () => {
             GLOBALS.inputSection.hideGif(1);
-            this.setText('That’s because the machine is looking at your input, and picking which class looks most similar.');
+            this.setText('Dat komt omdat de computer naar jouw voorbeeld kijkt en dan de groep kiest die daar het beste bij past.');
         }
     },
     {
         startTime: 64.8,
         stopTime: 72.2,
         event: () => {
-            this.setText('But since you’ve only trained the green class, it always picks that one. That’s why you need to teach it a second class.');
+            this.setText('Maar omdat je alleen geoefend hebt op de groene groep laat hij die altijd zien. We moeten dus ook op een tweede groep oefenen.');
         }
     },
     {
         startTime: 72.39999999999999,
         stopTime: 78.8,
         event: () => {
-            this.setText('So sit there with your hand down, and hold this purple button for a couple seconds.');
+            this.setText('Dus doe nu je hand omlaag en druk een paar seconden op de paarse knop.');
         }
     },
     {
@@ -276,7 +276,7 @@ this.steps.push({
         startTime: 83.39999999999999,
         stopTime: 92.8,
         event: () => {
-            this.setText('Now, move your hand up and down. You should see the cat GIF when your hand’s up, and dog the GIF when it’s down. Try it.');
+            this.setText('Beweeg nu je hand omhoog en omlaag. Je zou moeten zien dat je nu wisselt tussen het katten- en hondenplaatje.');
             GLOBALS.inputSection.hideGif(2);
         }
     },
@@ -311,14 +311,14 @@ this.steps.push({
         stopTime: 95.6,
         event: () => {
             GLOBALS.inputSection.hideGif(3);
-            this.setText('Great! Looks like it’s working.');
+            this.setText('Mooi, het ziet er naar uit dat het werkt..');
         }
     },
     {
         startTime: 95.7,
         stopTime: 99.2,
         event: () => {
-            this.setText('The orange button works the same way.');
+            this.setText('De oranje knop werkt op dezelfde manier.');
             GLOBALS.learningSection.enableClass(2);
             GLOBALS.learningSection.highlightClass(2);
         }
@@ -328,7 +328,7 @@ this.steps.push({
         stopTime: 104.2,
         event: () => {
             GLOBALS.learningSection.dehighlightClass(2);
-            this.setText('The x’s are for resetting your classes to teach them something new.');
+            this.setText('Met de x\'jes kun je opnieuw beginnen met een groep.');
         }
     },
     {
@@ -345,7 +345,7 @@ this.steps.push({
         event: () => {
             GLOBALS.learningSection.dehighlightClassX(0);
             GLOBALS.outputSection.highlight();
-            this.setText('And try the other outputs here.');
+            this.setText('En probeer ook de andere uitkomsten.');
             if (GLOBALS.browserUtils.isMobile) {
                 TweenLite.to(window, 0, {scrollTo: 660});
             }
@@ -356,14 +356,14 @@ this.steps.push({
         stopTime: 112.39999999999999,
         event: () => {
             GLOBALS.outputSection.dehighlight();
-            this.setText('Now, start playing around. Teach your machine whatever you want.');
+            this.setText('Probeer nu maar een beetje uit, leer de computer maar wat je wilt.');
         }
     },
     {
         startTime: 112.6,
         stopTime: 119,
         event: () => {
-            this.setText('Below, you’ll find some ideas for things to try, and links to learn more.');
+            this.setText('Je kan ook nog een filmpje maken van je slimme computer als je uitgeleerd bent.');
         }
     },
     {
@@ -388,7 +388,7 @@ this.steps.push({
         startTime: 131,
         stopTime: 138.8,
         event: () => {
-            this.setText('Your machine will work best with at least 30 examples per class. Try recording some more.');
+            this.setText('De computer werkt het beste met meer dan 30 voorbeelden per groep. Probeer er nog een paar op te nemen.');
         }
     }
     ]
@@ -404,7 +404,7 @@ this.steps.push({
         stopTime: 130.8,
         event: () => {
             this.activateWebcamButton.style.display = 'block';
-            this.setText('Seems like the camera isn’t working. It might be your browser or camera settings.');
+            this.setText('Het lijkt erop dat de camera het niet doet, probeer deze pagina te verversen.');
         }
     }
     ]

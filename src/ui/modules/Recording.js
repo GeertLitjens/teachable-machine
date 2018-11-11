@@ -53,18 +53,8 @@ class Recording {
         this.RECORD_TIME = 10000;
 
         this.startButton = new Button(document.querySelector('#recording__start-button'));
+        this.startButton.element.addEventListener('click', this.startRecordEvent);
         this.startRecordEvent = this.onRecordButtonClick.bind(this);
-        this.checkbox.addEventListener('click', this.toggleCheckbox.bind(this));
-    }
-
-    toggleCheckbox() {
-        if (this.checkbox.checked) {
-            this.startButton.element.addEventListener('click', this.startRecordEvent);
-            this.startButton.element.classList.remove('recording-start__button--disabled');
-        }else {
-            this.startButton.element.removeEventListener('click', this.startRecordEvent);
-            this.startButton.element.classList.add('recording-start__button--disabled');
-        }
     }
 
     setCanvas(element) {
@@ -123,9 +113,9 @@ class Recording {
         if (this.wiresImage) {
             this.context.drawImage(this.wiresImage, startX + 276 + padding / 2, 45, 54, videoWidth - 50);
         }
-        if (this.stampImage) {
-            this.context.drawImage(this.stampImage, this.canvas.width / 2 - (videoWidth * 1.2 / 2), 302, videoWidth * 1.2, 20);
-        }
+        //if (this.stampImage) {
+        //    this.context.drawImage(this.stampImage, this.canvas.width / 2 - (videoWidth * 1.2 / 2), 302, videoWidth * 1.2, 20);
+        //}
         // Bars to cover it:
         // this.context.fillStyle = '#e4e5e6';
         // this.context.fillRect(startX + 340, 0, videoWidth + padding, startY);
@@ -179,13 +169,13 @@ class Recording {
         }
         let confidencePercentage = confidence / 100;
         switch (colorId) {
-            case 'green':
+            case 'groen':
             this.confidence1 = confidencePercentage;
             break;
-            case 'purple':
+            case 'paars':
             this.confidence2 = confidencePercentage;
             break;
-            case 'orange':
+            case 'oranje':
             this.confidence3 = confidencePercentage;
             break;
             default:
@@ -242,6 +232,8 @@ class Recording {
     reset() {
         GLOBALS.webcamClassifier.startTimer();
         this.recordingState = 'waiting';
+        this.element.style.opacity = 1;
+        this.element.style.pointerEvents = 'initial';
         this.recordTimer.style.display = 'block';
         this.startButton.element.style.top = 0;
         this.downloadLinkSection.style.marginLeft = '15px';
@@ -252,7 +244,7 @@ class Recording {
         this.downloadLinkSection.style.display = 'none';
         document.querySelector('#recording__start-button .button__label #icon--stop').style.display = 'none';
         document.querySelector('#recording__start-button .button__label #icon--record').style.display = 'inline-block';
-        document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start Recording';
+        document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start opname';
         this.canvas.style.display = 'block';
         this.sharingNotice.style.display = 'none';
         this.recordingVideo.style.display = 'none';
@@ -309,19 +301,19 @@ class Recording {
         clearTimeout(this.countdownTimeout);
         this.count = 3;
         this.startButton.element.classList.remove('animate');
-        document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start Recording';
+        document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Start opname';
     }
 
     startRecording() {
         this.recordingState = 'recording';
         document.querySelector('#recording__start-button .button__label #icon--stop').style.display = 'inline-block';
-        document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Stop Recording';
+        document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = 'Stop opname';
         let recordedChunks = [];
         this.startButton.element.classList.add('animate');
         let finalStream = new MediaStream();
         let canvasStream = this.canvas.captureStream().getVideoTracks()[0];
         finalStream.addTrack(canvasStream);
-        finalStream.addTrack(GLOBALS.stream.getAudioTracks()[0]);
+//        finalStream.addTrack(GLOBALS.stream.getAudioTracks()[0]);
 
         this.mediaRecorder = new MediaRecorder(finalStream);
 
@@ -332,7 +324,7 @@ class Recording {
         };
         this.mediaRecorder.start();
         this.mediaRecorder.onstop = () => {
-            this.blob = new Blob(recordedChunks, {type: 'video/webm'});
+            this.blob = new Blob(recordedChunks, {type: 'video/mp4'});
             let url = URL.createObjectURL(this.blob);
             this.canvas.style.display = 'none';
             this.recordingVideo.style.display = 'block';
@@ -344,7 +336,7 @@ class Recording {
             document.querySelector('#recording__start-button .button__label #recording__start-text').innerText = '';
             this.downloadLinkSection.style.display = 'inline-block';
             this.downloadLinkButton.href = url;
-            this.downloadLinkButton.download = 'teachable-machine.webm';
+            this.downloadLinkButton.download = 'slimme-computer.mp4';
             this.startButton.element.style.display = 'none';
             this.legal.style.display = 'none';
             this.recordingVideo.setAttribute('src', url);
@@ -360,6 +352,7 @@ class Recording {
     }
 
     show() {
+        this.reset();        
         this.recordingState = 'waiting';
         this.showing = true;
         this.element.style.opacity = 1;
@@ -379,7 +372,6 @@ class Recording {
             if (this.video) {
                 this.recordingVideo.setAttribute('src', '');
             }
-            this.reset();
         },
         300
         );
@@ -394,7 +386,7 @@ class Recording {
         window.fbWindowCallback = (data) => {
             let formData = new FormData();
             formData.append('code', data);
-            let fileOfBlob = new File([this.blob], 'share.webm');
+            let fileOfBlob = new File([this.blob], 'share.mp4');
 
             formData.append('video', fileOfBlob);
 

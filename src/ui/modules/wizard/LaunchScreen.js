@@ -139,7 +139,7 @@ class LaunchScreen {
     startClick() {
         let intro = document.querySelector('.intro');
         let offset = intro.offsetHeight;
-        if (GLOBALS.browserUtils.isMobile || GLOBALS.browserUtils.isSafari) {
+        if (GLOBALS.browserUtils.isMobile || GLOBALS.browserUtils.isSafari || GLOBALS.browserUtils.isChrome) {
             GLOBALS.inputSection.createCamInput();
             GLOBALS.camInput.start();
             GLOBALS.wizard.touchPlay();

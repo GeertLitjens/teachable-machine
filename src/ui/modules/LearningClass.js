@@ -41,8 +41,6 @@ class LearningClass {
 		this.color = options.color;
 		this.rgbaColor = options.rgbaColor;
 
-
-
 		this.arrow = new HighlightArrow(3);
 		this.arrow.element.style.left = 100 + '%';
 		this.arrow.element.style.top = 100 + '%';
@@ -153,7 +151,6 @@ class LearningClass {
 
 	buttonDown() {
 		let that = this;
-		this.button.setText('Training');
 		this.section.startRecording(this.index);
 
 		this.buttonUpEvent = this.buttonUp.bind(this);
@@ -172,7 +169,6 @@ class LearningClass {
 	}
 
 	buttonUp() {
-		this.button.setText(`Train <br>${this.id}`);
 		this.section.stopRecording();
         clearTimeout(this.buttonClickTimeout);
 		this.button.up();

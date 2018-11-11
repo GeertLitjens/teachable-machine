@@ -27,7 +27,7 @@
     "eslint": "eslint src",
     "stylint": "stylint style",
     "budo": "budo src/index.js:bundle.js --port=3000 --live -v --dir=docs -o",
-    "budo-https": "budo src/index.js:bundle.js --ssl --cert=server.cer --key=server.key --port=3000 --live -v --dir=docs -o",
+    "budo-https": "budo src/index.js:bundle.js --ssl --port=3000 --live -v --dir=docs -o",
     "watch": "npm run style-build && concurrently \"npm run assets-watch\" \"npm run html-watch\" \"npm run budo\" \"npm run style-watch\"",
     "watch-https": "npm run style-build && concurrently \"npm run assets-watch\" \"npm run html-watch\" \"npm run budo-https\" \"npm run style-watch\""
   },
